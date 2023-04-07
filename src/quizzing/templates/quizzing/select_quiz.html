@@ -1,0 +1,35 @@
+{% extends 'constructor/base.html' %}
+
+{% block content %}
+    <br>
+    <p>Выберите тест:</p>
+    {# Render list of quizzes. #}
+    <div class="list-group" style="max-width: 1000px;">
+            {# Render admin panel entrance. #}
+            <button type="button" class="list-group-item list-group-item-action btn btn-primary" data-bs-toggle="modal" data-bs-target="#login-modal"><pre>{{ admin_panel_name }}</pre></button>
+            <div class="modal fade" id="login-modal" tabindex="-1" aria-labelledby="login-modal-label" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="login-modal-label">Введите пароль</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <form action="" method="post" class="form" novalidate>
+                            <div class="modal-body">
+                                    {% csrf_token %}
+                                    {{ login_form }}
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+                                <button type="submit" class="btn btn-primary">Отправить</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        {% for quiz in quizzes %}
+            <a href="pass/{{ quiz.pk }}" class="list-group-item list-group-item-action"><pre>{{ quiz.username }}</pre></a>
+        {% endfor %}
+    </div>
+{% endblock %}

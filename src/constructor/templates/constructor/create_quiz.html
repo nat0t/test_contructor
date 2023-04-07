@@ -1,0 +1,63 @@
+{% extends 'constructor/base.html' %}
+{% load widget_tweaks %}
+
+{% block content %}
+    <br>
+    <form action="" method="post" class="form" novalidate>
+        {% csrf_token %}
+
+        {# Render hidden fields. #}
+        {{ form.non_field_errors }}
+        {% for hidden_field in form.hidden_fields %}
+            {{ hidden_field.errors }}
+            {{ hidden_field }}
+        {% endfor %}
+
+        {# Render username. #}
+        {{ form.username.label_tag }}
+        <div class="invalid-feedback d-block">
+            {{ form.username.errors }}
+        </div>
+        <div class="mb-3" style="max-width: 1000px;">
+        {% if form.username.errors %}
+            {% render_field form.username class="form-control is-invalid" %}
+        {% elif form.is_bound %}
+            {% render_field form.username class="form-control is-valid" %}
+        {% else %}
+            {% render_field form.username class="form-control" %}
+        {% endif %}
+        </div>
+        {{ form.username.help_text }}
+
+        {# Render subcategories. #}
+        {{ form.subcategories.label_tag }}
+        <div class="invalid-feedback d-block">
+            {{ form.subcategories.errors }}
+        </div>
+        {% for value, label, obj in form.subcategories.field.choices %}
+            <div class="input-group mb-3" style="max-width: 1000px;">
+                <span class="input-group-text w-75 text-wrap text-start"><label for="id_subcategories_{{ forloop.counter0 }}"><input type="checkbox" name="subcategories" value="{{ value }}" class="subcategory-checkbox" id="id_subcategories_{{ forloop.counter0 }}"> {{ label }}</label></span>
+                <input type="number" value="{{ obj.amount }}" class="form-control subcategory-amount invisible" name="amount_{{ value }}" id="id_subcategory_inputs_{{ forloop.counter0 }}">
+            </div>
+        {% endfor %}
+        {{ form.subcategories.help_text }}
+        <br>
+
+        <button type="submit" class="btn btn-primary">Создать</button>
+    </form>
+    <script>
+        // Show/hide inputs with amount values.
+        let checkboxes = document.getElementsByClassName('subcategory-checkbox')
+        let inputs = document.getElementsByClassName('subcategory-amount')
+        Array.from(checkboxes).forEach(checkbox => {
+            Array.from(inputs).forEach(input => {
+                if (checkbox.value == input.name.split('_')[1]) {
+                    checkbox.addEventListener('change', () => toggleInput(input));
+                }
+            })
+        });
+        function toggleInput(element) {
+            element.classList.toggle('invisible');
+        };
+    </script>
+{% endblock %}

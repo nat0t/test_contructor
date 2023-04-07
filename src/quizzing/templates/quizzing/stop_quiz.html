@@ -1,0 +1,21 @@
+{% extends 'constructor/base.html' %}
+
+{% block content %}
+    <br>
+    <div class="card text-dark bg-light mb-3" style="max-width: 1000px;">
+        <div class="card-header">Тестирование: {{ username }}</div>
+        <div class="card-body">
+            <h3 class="card-title">Результаты тестирования:</h3>
+            <p>
+                {% for result in results %}
+                    {% if result.total_right_answered == result.total_questions %}
+                        {{ result.subcategory }}: <span class="text-success">{{ result.total_right_answered }} / {{ result.total_questions }}</span>
+                    {% else %}
+                        {{ result.subcategory }}: <span class="text-danger">{{ result.total_right_answered }} / {{ result.total_questions }}</span>
+                    {% endif %}
+                <br>
+                {% endfor %}
+            </p>
+        </div>
+    </div>
+{% endblock %}

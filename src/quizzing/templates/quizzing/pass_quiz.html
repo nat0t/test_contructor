@@ -1,0 +1,27 @@
+{% extends 'constructor/base.html' %}
+
+{% block content %}
+    <br>
+    <form action="" method="post" class="form" novalidate>
+        {% csrf_token %}
+
+        {# Render hidden fields. #}
+        {{ form.non_field_errors }}
+        {{ form.pk.errors }}
+        <input type="hidden" name="pk" id="id_pk" value="{{ pk }}">
+        <div class="card text-dark bg-light mb-3" style="max-width: 1000px;">
+            <div class="card-header">Блок: {{ subcategory }}</div>
+            <div class="card-body">
+                <h3 class="card-title">{{ text }}</h3>
+                {# Render answers. #}
+                <div class="invalid-feedback d-block">
+                    {{ error }}
+                </div>
+                <p>
+                    {{ form.answers }}
+                </p>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Ответить</button>
+    </form>
+{% endblock %}

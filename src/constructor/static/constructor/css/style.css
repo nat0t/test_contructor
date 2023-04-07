@@ -1,0 +1,28 @@
+header {
+    min-width: 375px;
+    width: 100%;
+    height: 200px;
+    background-image: url(../images/logo.jpg);
+}
+header>div {
+    padding-left: 2%;
+    padding-top: 2%;
+    padding: 0;
+}
+.logo-link {
+    width: 350px;
+    height: 200px;
+    display: flex;
+    align-items: center;
+}
+.logo-link>a>img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+body {
+  font-family-sans-serif: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !default;
+}
+input[type=number] {
+    text-align: right;
+}
