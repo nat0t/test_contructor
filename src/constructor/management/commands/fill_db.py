@@ -5,7 +5,7 @@ from constructor.models import Question, Answer, Category, Subcategory
 
 FILENAME = 'base.xlsx'
 START_ROW = 6
-END_ROW = 453
+END_ROW = 432
 
 
 class Command(BaseCommand):
@@ -18,28 +18,28 @@ class Command(BaseCommand):
             for i in range(START_ROW, END_ROW + 1):
                 # Get or create category.
                 category, _ = Category.objects.get_or_create(
-                    name=sheet[f'D{i}'].value.strip().capitalize(),
-                    defaults={'name': sheet[f'D{i}'].value.strip().capitalize()})
+                    name=sheet[f'D{i}'].value.strip(),
+                    defaults={'name': sheet[f'D{i}'].value.strip()})
                 # Get or create subcategory.
                 subcategory, _ = Subcategory.objects.get_or_create(
-                    category=category, name=sheet[f'E{i}'].value.strip().capitalize(),
+                    category=category, name=sheet[f'E{i}'].value.strip(),
                     defaults={
                         'category': category,
-                        'name': sheet[f'E{i}'].value.strip().capitalize(),
+                        'name': sheet[f'E{i}'].value.strip(),
                     })
                 # Get or create question.
                 question, _ = Question.objects.get_or_create(
-                    subcategory=subcategory, text=sheet[f'A{i}'].value.strip().capitalize(),
+                    subcategory=subcategory, text=sheet[f'A{i}'].value.strip(),
                     defaults={
                         'subcategory': subcategory,
-                        'text': sheet[f'A{i}'].value.strip().capitalize(),
+                        'text': sheet[f'A{i}'].value.strip(),
                     })
                 # Get or create answer.
                 answer, _ = Answer.objects.get_or_create(
-                    question=question, text=sheet[f'A{i}'].value.strip().capitalize(),
+                    question=question, text=sheet[f'A{i}'].value.strip(),
                     defaults={
                         'question': question,
-                        'text': sheet[f'B{i}'].value.strip().capitalize(),
+                        'text': sheet[f'B{i}'].value.strip(),
                         'is_right': bool(sheet[f'C{i}'].value),
                     },
                 )

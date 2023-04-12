@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'widget_tweaks',
+    'django_createsuperuserwithpassword',
     'constructor',
     'quizzing',
 ]
@@ -82,7 +83,8 @@ WSGI_APPLICATION = 'core.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        # 'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': BASE_DIR.parent.joinpath('db').joinpath('db.sqlite3'),
     }
 }
 
@@ -171,6 +173,11 @@ LOGGING = {
     },
 }
 
+# Administrator settings
+ADMINISTRATOR_NAME = local_settings.ADMINISTRATOR_NAME
+ADMINISTRATOR_PASSWORD = local_settings.ADMINISTRATOR_PASSWORD
+ADMINISTRATOR_EMAIL = local_settings.ADMINISTRATOR_EMAIL
+
 # E-mail settings
 POST_SERVER_NAME = local_settings.POST_SERVER_NAME
 POST_SERVER_PORT = local_settings.POST_SERVER_PORT
@@ -178,5 +185,6 @@ SERVICE_MAILBOX = local_settings.SERVICE_MAILBOX
 SERVICE_MAILBOX_PASSWORD = local_settings.SERVICE_MAILBOX_PASSWORD
 ADMINISTRATOR_EMAIL = local_settings.ADMINISTRATOR_EMAIL
 
+# Admin panel settings
 ADMIN_PANEL_NAME = local_settings.ADMIN_PANEL_NAME
 ADMIN_PANEL_PASSWORD = local_settings.ADMIN_PANEL_PASSWORD

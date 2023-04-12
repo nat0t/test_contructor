@@ -1,4 +1,3 @@
-import time
 from logging import getLogger
 
 from django.conf import settings
@@ -22,7 +21,6 @@ def select_quiz(request):
         login_form = LoginCreateQuizForm(request.POST)
         if login_form.is_valid():
             if login_form.cleaned_data['password'] == settings.ADMIN_PANEL_PASSWORD:
-                time.sleep(2)
                 return redirect(reverse('constructor:create_quiz'))
     login_form = LoginCreateQuizForm()
     return render(request, 'quizzing/select_quiz.html', {
@@ -37,7 +35,9 @@ def pass_quiz(request, quiz_pk):
         form = QuizQuestionForm(request.POST)
         if form.is_valid():
             quiz_question = QuizQuestion.objects.get(pk=form.data['pk'])
-            if not form.cleaned_data['answers'].filter(is_right=False):
+            right_answers = list(quiz_question.question.answers.filter(is_right=True).values_list('pk', flat=True))
+            user_answers = list(form.cleaned_data['answers'].values_list('pk', flat=True))
+            if user_answers == right_answers:
                 quiz_question.is_right_answered = True
             quiz_question.is_answered = True
             quiz_question.save()
