@@ -26,6 +26,7 @@ class Command(BaseCommand):
                     defaults={
                         'category': category,
                         'name': sheet[f'E{i}'].value.strip(),
+                        'amount': sheet[f'F{i}'].value,
                     })
                 # Get or create question.
                 question, _ = Question.objects.get_or_create(
