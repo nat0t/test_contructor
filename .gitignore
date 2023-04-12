@@ -6,4 +6,4 @@ src/static/
 logs/
 base.xlsx
 migrations/
-__pycache__
+*.pyc
