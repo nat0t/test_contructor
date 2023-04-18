@@ -12,6 +12,7 @@ RUN pip install -r requirements.txt
 COPY . ..
 
 RUN python manage.py collectstatic --noinput --clear
-RUN python manage.py makemigrations
+RUN python manage.py makemigrations constructor
+RUN python manage.py makemigrations quizzing
 RUN python manage.py migrate --noinput
 RUN python manage.py fill_db
