@@ -1,6 +1,8 @@
 from logging import getLogger
+from smtplib import SMTPException
 
 from django.conf import settings
+from django.core.mail import send_mail
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.urls import reverse
@@ -8,7 +10,6 @@ from django.utils.translation import gettext_lazy as _
 
 from constructor.forms import LoginCreateQuizForm
 from constructor.models import Subcategory
-from utilities.utils import send_email
 from .models import Quiz, QuizQuestion
 from .forms import QuizQuestionForm
 
@@ -72,8 +73,17 @@ def pass_quiz(request, quiz_pk):
             } for subcategory in subcategories]
         if not Quiz.objects.get(id=quiz_pk).is_completed:
             try:
-                send_email(username, results)
-            except Exception as error:
+                results_text = ''.join([f"{result['subcategory']}: {result['total_right_answered']} / {result['total_questions']}\n" for result in results])
+                is_successful = all(result['total_right_answered'] == result['total_questions'] for result in results)
+                message = f"Результаты тестирования:\n{results_text}\nТест {'' if is_successful else 'не'} пройден!"
+                send_mail(
+                    f'Тестирование {username}',
+                    message,
+                    settings.EMAIL_HOST_USER,
+                    [settings.ADMINISTRATOR_MAILBOX],
+                    fail_silently=False,
+                )
+            except SMTPException as error:
                 logger.error('Error while sending result of quiz to e-mail', exc_info=error)
         Quiz.objects.filter(id=quiz_pk).update(is_completed=True)
         return render(request, 'quizzing/stop_quiz.html', {
