@@ -37,7 +37,7 @@ class Command(BaseCommand):
                     })
                 # Get or create answer.
                 answer, _ = Answer.objects.get_or_create(
-                    question=question, text=sheet[f'A{i}'].value.strip(),
+                    question=question, text=sheet[f'B{i}'].value.strip(),
                     defaults={
                         'question': question,
                         'text': sheet[f'B{i}'].value.strip(),

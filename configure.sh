@@ -10,11 +10,13 @@ read -p "Input password of admin panel: " ADMIN_PANEL_PASSWORD
 
 read -p "Input hostname of post server: " EMAIL_HOST
 read -p "Input server port for send and receive e-mail: " EMAIL_PORT
-read -p "Input mailbox of quiz system (source of send reports about completed quizzes): " SERVICE_MAILBOX
-read -p "Input mailbox password of quiz system: " SERVICE_MAILBOX_PASSWORD
+read -p "Enable TLS for sending e-mail? (0/1) " EMAIL_USE_TLS
+read -p "Enable SSL for sending e-mail? (0/1) " EMAIL_USE_SSL
+read -p "Input mailbox of quiz system (source of send reports about completed quizzes): " EMAIL_HOST_USER
+read -p "Input mailbox password of quiz system: " EMAIL_HOST_PASSWORD
 
 echo SECRET_KEY=\"$(python -c "from random import choice; result = ''.join([choice('abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)') for i in range(50)]); print(result);")\" > .env
-echo DEBUG=1 >> .env
+echo DEBUG=0 >> .env
 echo ALLOWED_HOSTS=\""*"\" >> .env
 echo "" >> .env
 echo ADMINISTRATOR_NAME=\"$ADMINISTRATOR_NAME\" >> .env
@@ -26,5 +28,7 @@ echo ADMIN_PANEL_PASSWORD=\"$ADMIN_PANEL_PASSWORD\" >> .env
 echo "" >> .env
 echo EMAIL_HOST=\"$EMAIL_HOST\" >> .env
 echo EMAIL_PORT=$EMAIL_PORT\" >> .env
+echo EMAIL_USE_TLS=$EMAIL_USE_TLS\" >> .env
+echo EMAIL_USE_SSL=$EMAIL_USE_SSL\" >> .env
 echo EMAIL_HOST_USER=\"$EMAIL_HOST_USER\" >> .env
 echo EMAIL_HOST_PASSWORD=\"$EMAIL_HOST_PASSWORD\" >> .env
