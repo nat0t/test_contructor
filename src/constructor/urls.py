@@ -7,6 +7,7 @@ from . import views
 app_name = 'constructor'
 
 urlpatterns = [
+    path('delete/<int:quiz_id>/', views.delete_quiz, name='delete_quiz'),
     path('login/', views.login_create_quiz, name='login_create_quiz'),
     path('', views.create_quiz, name='create_quiz'),
 ]

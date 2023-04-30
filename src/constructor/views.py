@@ -18,7 +18,15 @@ def create_quiz(request):
             return HttpResponseRedirect(reverse('constructor:create_quiz'))
     else:
         form = CreateQuizForm()
-    return render(request, 'constructor/create_quiz.html', {'form': form})
+    return render(request, 'constructor/create_quiz.html', {
+        'form': form,
+        'quizzes': Quiz.objects.values_list('pk', 'username'),
+    })
+
+
+def delete_quiz(request, quiz_id: None):
+    Quiz.objects.get(pk=quiz_id).delete()
+    return HttpResponseRedirect(reverse('constructor:create_quiz'))
 
 
 def login_create_quiz(request):
