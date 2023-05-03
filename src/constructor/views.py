@@ -25,7 +25,7 @@ def create_quiz(request):
 
 
 def delete_quiz(request, quiz_id: None):
-    Quiz.objects.get(pk=quiz_id).delete()
+    Quiz.objects.filter(pk=quiz_id).delete()
     return HttpResponseRedirect(reverse('constructor:create_quiz'))
 
 
