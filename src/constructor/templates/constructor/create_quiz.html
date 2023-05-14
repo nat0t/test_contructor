@@ -49,11 +49,31 @@
         </form>
         <ul class="list-group col">
             <h3 class="text-center">Список тестов</h3>
-            {% for quiz in quizzes %}
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-                {{ quiz.1 }}
-                <a href="delete/{{ quiz.0 }}" class="btn btn-outline-danger" aria-label="Delete">Удалить</a>
+            {% for date, quizzes_ in quizzes %}
+            <li class="list-group-item d-flex justify-content-between align-items-center mt-3 p-3 ps-1" data-bs-toggle="collapse" data-bs-target="#collapse-quiz-{{ forloop.counter }}">
+                {{ date }}
             </li>
+                <div class="collapse" id="collapse-quiz-{{ forloop.counter }}">
+                    <ul class="list-group col">
+                        {% for quiz in quizzes_ %}
+                            <div class="d-flex">
+                                <li class="list-group-item d-flex justify-content-between align-items-center list-group-item-primary ps-3 flex-grow-1" data-bs-toggle="collapse" data-bs-target="#collapse-username-{{ forloop.parentloop.counter}}{{forloop.counter }}">
+                                    {{ quiz.username }}
+                                </li>
+                                <a href="delete/{{ quiz.pk }}" class="btn btn-outline-danger" aria-label="Delete">Удалить</a>
+                            </div>
+                            <div class="collapse" id="collapse-username-{{ forloop.parentloop.counter}}{{forloop.counter }}">
+                                <ul class="list-group col">
+                                    {% for category in quiz.categories %}
+                                        <li class="list-group-item d-flex justify-content-between align-items-center list-group-item-secondary ps-4">
+                                            {{ category }}
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        {% endfor %}
+                    </ul>
+                </div>
             {% endfor %}
         </ul>
     </div>
